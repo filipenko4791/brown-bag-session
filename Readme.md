@@ -29,7 +29,7 @@ git clone https://github.com/filipenko4791/brown-bag-session.git
 ```
 
 ## Schritt 1 - Docker Container bauen
-Für das 
+Die Tags des Images und des Services kannst du frei wählen (brownbag-image, brownbag-session, brownbag-webpage, brownbag-session). Du kannst aber auch die Namen so lassen.
 ### 1. Check Dockerfile
 * Basisimage (FROM) ist notwendig und abhängig von verwendeten Software
 * im Dockerfile sind Anweisungen enthalten
