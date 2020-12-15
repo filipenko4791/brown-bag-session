@@ -7,28 +7,31 @@ Vorbereitung:
 Docker Desktop for Windows or Mac
 Docker Hub
 
+docker login
 
 1. Create a Dockerfile
-Basisimage notwendig abhängig von Software
-im Dockerfile als Instruction enthalten
+#Basisimage notwendig abhängig von Software
+#im Dockerfile als Instruction enthalten
 
 FROM nginx:alpine
 COPY . /usr/share/nginx/html
-CMD html /webpage.html
 
 2. Build Docker Image
-build  command
-Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt
+# Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt
 docker build -t <build-directory> / -t ist für lesbaren Namen
 docker build -t brownbag-image:v1
+
 docker images
 
 3. Run
-Jeder Container ist eine Sandbox für die App
-Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben
-docker run -d -p 80:80 brownbag:v1
-curl docker
+# Jeder Container ist eine Sandbox für die App
+# Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben
+docker run --name brownbag-web -d -it -p 80:80 brownbag:1.0
 
+4.Push Image to Docker Hub
+
+docker tag bb38976d03cf filipenko23/brownbag-session:tagname
+docker push filipenko23/brownbag-session:tagname
 
 Step 1
 Aufbauen einer EC2 Instanz
@@ -62,6 +65,31 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 sudo apt-get update && \
     sudo apt-get install docker.io -y
     
+docker version
+    
 5. Install Minikube
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+
+minikube version
+
+Running Minkube on EC2
+
+sudo -i
+sudo apt-get install -y conntrack
+minikube start --vm-driver=none
+minikube status
+minikube dashboard   // Access Remote  minikube dashboard --url && ssh -i <LOCATION TO SSH PRIVATE KEY> -L <LOCAL PORT>:localhost:<REMOTE PORT ON WHICH MINIKUBE DASHBOARD IS RUNNING> user-name@IP
+$ sudo ssh -i ~/.ssh/id_rsa -L 8081:localhost:36525 shubham@40.77.75.58
+
+
+kubectl create deployment brownbag-session --image=filipenko23/brownbag-session:brownsession-webpage
+kubectl expose deployment brownbag-session --type=NodePort --port=8080
+kubectl get services
+
+
+3.122.252.171:30268
+
+kubectl create brownbag-session filipenko23/brownbag-session:brownsession-webpage --port=8080
+kubectl expose deployment brownbag-session3 --type=NodePort
+
 
