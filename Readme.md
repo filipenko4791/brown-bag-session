@@ -1,40 +1,63 @@
-Testumgebung für die Brown Bag Session am 17.12.2020
+# Testumgebung für die Brown Bag Session am 17.12.2020
 
-tips: https://labs.play-with-docker.com
-https://hub.docker.com/
+## Nützliche Links:
+Git repository https://github.com/filipenko4791/brown-bag-session.git
+Docker Registry docker pull filipenko23/brownbag-session
+Getting Started with Docker https://docs.docker.com/get-started/
+Play with Docker https://labs.play-with-docker.com
+Getting Started with Kubernetes https://kubernetes.io/docs/setup/
+Container Transformation Webseite https://blog.direkt-gruppe.de/container-transformation
+Running Minikube in AWS EC2 (Ubuntu) https://www.radishlogic.com/kubernetes/running-minikube-in-aws-ec2-ubuntu/
 
-Vorbereitung: 
-Docker Desktop for Windows or Mac
-Docker Hub
+## Vorbereitung: 
+Docker Desktop for Windows or Mac installieren
+Docker Hub Account anlegen und einlogen
+ggf. GitHub Account
 
+### 1. Login Docker Hub über Terminal
 docker login
+### 2. Docker  Version prüfen
+docker --version
 
-1. Create a Dockerfile
-#Basisimage notwendig abhängig von Software
-#im Dockerfile als Instruction enthalten
+### 3. Projekt aus GitHub clonen
+git clone https://github.com/filipenko4791/brown-bag-session.git
+
+Step 1 
+Docker Container bauen
+
+1. Check Dockerfile
+Basisimage (FROM) ist notwendig und abhängig von verwendeten Software
+im Dockerfile sind Anweisungen enthalten
+TODO: Dockerfile mit folgendem Inhalt erstellen:
 
 FROM nginx:alpine
 COPY . /usr/share/nginx/html
 
 2. Build Docker Image
-# Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt
+Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt
 docker build -t <build-directory> / -t ist für lesbaren Namen
-docker build -t brownbag-image:v1
+Du musst dich im Directory befinden
 
+docker build -t brownbag:1.0 . 
 docker images
 
 3. Run
-# Jeder Container ist eine Sandbox für die App
-# Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben
-docker run --name brownbag-web -d -it -p 80:80 brownbag:1.0
+Jeder Container ist eine Sandbox für die App
+Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben
+
+docker run --name brownbag-session -d -it -p 80:80 brownbag-image:1.0
 
 4.Push Image to Docker Hub
+Erstelltes Image in die Registry pushen
+Dabei einen neuen Tag für die Zielregistry vergeben
 
-docker tag bb38976d03cf filipenko23/brownbag-session:tagname
-docker push filipenko23/brownbag-session:tagname
+docker tag bc1c3bf99406 filipenko23/brownbag-session:brownbag-webpage
+docker push filipenko23/brownbag-session:brownbag-webpage
 
-Step 1
-Aufbauen einer EC2 Instanz
+
+
+Step 2
+Aufbauen einer EC2 Instanz  mit Docker und Minikube
     
 AMI	Ubuntu Server 18.04 LTS (HVM), SSD Volume Type
 Instance Type	t3.micro (2 vCPU, 1GB Memory)
@@ -49,10 +72,11 @@ You will need this to SSH to your EC2 Instance
 
 2. SSH into your created EC2 Instance using your keypair.
 ssh ubuntu@<ipv4_public_ip> -i <keypair>.pem
-Bspw. ssh ubuntu@3.122.252.171  -i /Users/ptiede/Documents/Secrets/BrownBagSession.pem
- Fix for WARNING: UNPROTECTED PRIVATE KEY FILE! 
- sudo chmod 600 /path/to/my/key.pem
- sudo chmod 755 ~/.ssh
+Bspw. ssh ubuntu@18.157.79.90  -i /Users/ptiede/Documents/Secrets/BrownBagSession.pem
+ 
+Fix for WARNING: UNPROTECTED PRIVATE KEY FILE! 
+sudo chmod 600 /path/to/my/key.pem
+sudo chmod 755 ~/.ssh
  
 3. Install kubectl
 
@@ -72,24 +96,49 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/miniku
 
 minikube version
 
-Running Minkube on EC2
-
+Step 3 
+Minkube auf EC2-Instanz ausführen
+1. Root User werden
 sudo -i
-sudo apt-get install -y conntrack
+
+2. Minikube starten
 minikube start --vm-driver=none
+Fix bei Fehler: sudo apt-get install -y conntrack
+
+3. Status von Minikube checken
 minikube status
-minikube dashboard   // Access Remote  minikube dashboard --url && ssh -i <LOCATION TO SSH PRIVATE KEY> -L <LOCAL PORT>:localhost:<REMOTE PORT ON WHICH MINIKUBE DASHBOARD IS RUNNING> user-name@IP
-$ sudo ssh -i ~/.ssh/id_rsa -L 8081:localhost:36525 shubham@40.77.75.58
 
+4. Unseren Container starten
+kubectl create deployment brownbag-session --image=filipenko23/brownbag-session:brownbag-webpage
 
-kubectl create deployment brownbag-session --image=filipenko23/brownbag-session:brownsession-webpage
+5. Unseren Service starten 
 kubectl expose deployment brownbag-session --type=NodePort --port=8080
+
+6. Port des Containers ausfindig machen
 kubectl get services
 
+7. Sicherheitsgruppe der EC2-Instanz anpassen
 
-3.122.252.171:30268
+EC2 >> (Network & Security) Security Groups >> Minikube Security Group >> Ingress
 
-kubectl create brownbag-session filipenko23/brownbag-session:brownsession-webpage --port=8080
-kubectl expose deployment brownbag-session3 --type=NodePort
+Type	Custom TCP Rule
+Protocol	TCP
+Port Range	30263 (the port given to you by the kubectl get services command)
+Source	Custom
+0.0.0.0/0 (Accessible via the internet)
+
+8. Den Container via der EC2-Instanz über den Web Browser aufrufen
+
+&lt;ipv4_public_ip&gt;:&lt;ec2_port&gt;.
+bspw. 18.157.79.90:32719
+
+
+
+
+
+minikube dashboard   // Access Remote  minikube dashboard --url && ssh -i <LOCATION TO SSH PRIVATE KEY> -L <LOCAL PORT>:localhost:<REMOTE PORT ON WHICH MINIKUBE DASHBOARD IS RUNNING> user-name@IP
+    minikube dashboard --url && ssh -i /Users/ptiede/Documents/Secrets/BrownBagSession.pem -L 8081:localhost:38923 ubuntu@18.157.79.90
+$ sudo ssh -i ~/.ssh/id_rsa -L 8081:localhost:36525 shubham@40.77.75.58
+
 
 
