@@ -22,10 +22,9 @@ docker --version
 ### 3. Projekt aus GitHub clonen
 git clone https://github.com/filipenko4791/brown-bag-session.git
 
-Step 1 
-Docker Container bauen
+## Schritt 1 - Docker Container bauen
 
-1. Check Dockerfile
+### 1. Check Dockerfile
 Basisimage (FROM) ist notwendig und abhängig von verwendeten Software
 im Dockerfile sind Anweisungen enthalten
 TODO: Dockerfile mit folgendem Inhalt erstellen:
@@ -33,7 +32,7 @@ TODO: Dockerfile mit folgendem Inhalt erstellen:
 FROM nginx:alpine
 COPY . /usr/share/nginx/html
 
-2. Build Docker Image
+### 2. Build Docker Image
 Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt
 docker build -t <build-directory> / -t ist für lesbaren Namen
 Du musst dich im Directory befinden
@@ -41,33 +40,30 @@ Du musst dich im Directory befinden
 docker build -t brownbag:1.0 . 
 docker images
 
-3. Run
+### 3. Run
 Jeder Container ist eine Sandbox für die App
 Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben
 
 docker run --name brownbag-session -d -it -p 80:80 brownbag-image:1.0
 
-4.Push Image to Docker Hub
+### 4. Push Image to Docker Hub
 Erstelltes Image in die Registry pushen
 Dabei einen neuen Tag für die Zielregistry vergeben
 
 docker tag bc1c3bf99406 filipenko23/brownbag-session:brownbag-webpage
 docker push filipenko23/brownbag-session:brownbag-webpage
 
-
-
-Step 2
-Aufbauen einer EC2 Instanz  mit Docker und Minikube
+## Schritt 2 - Aufbauen einer EC2 Instanz  mit Docker und Minikube
     
-AMI	Ubuntu Server 18.04 LTS (HVM), SSD Volume Type
-Instance Type	t3.micro (2 vCPU, 1GB Memory)
-Storage	8 GB (gp2)
-Tags	– Key: Name
+AMI	| Ubuntu Server 18.04 LTS (HVM), SSD Volume Type
+Instance Type | t3.micro (2 vCPU, 1GB Memory)
+Storage | 8 GB (gp2)
+Tags |	– Key: Name
 – Value: Minikube
-Security Group	Name: Minikube Security Group
+Security Group |	Name: Minikube Security Group
 – SSH, 0.0.0.0/0
 Later we will be editing this.
-Key Pair	Create your own keypair.
+Key Pair | Create your own keypair.
 You will need this to SSH to your EC2 Instance
 
 2. SSH into your created EC2 Instance using your keypair.
