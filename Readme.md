@@ -29,7 +29,7 @@ git clone https://github.com/filipenko4791/brown-bag-session.git
 ```
 
 ## Schritt 1 - Docker Container bauen
-
+Für das 
 ### 1. Check Dockerfile
 * Basisimage (FROM) ist notwendig und abhängig von verwendeten Software
 * im Dockerfile sind Anweisungen enthalten
@@ -58,12 +58,13 @@ docker run --name brownbag-session -d -it -p 80:80 brownbag-image:1.0
 ```
 
 ### 4. Erstelltes Image in Docker Hub pushen
-* Erstelltes Image in die Registry pushen
-* Dabei einen neuen Tag für die Zielregistry vergeben
+* Das erstellte Image benötigt einen neuen Tag mit der Zielregistry
+* Erst dann kann das erstellte Image in die Registry geschoben werden
+* Den Pfad der Registry kannst du im Docker Hub nachschlagen
 
 ```
-docker tag image-id filipenko23/brownbag-session:brownbag-webpage
-docker push filipenko23/brownbag-session:brownbag-webpage
+docker tag image-id registrypfad:brownbag-webpage
+docker push registrypfad:brownbag-webpage
 ```
 
 ## Schritt 2 - Aufbauen einer EC2-Instanz mit Docker und Minikube
@@ -145,7 +146,7 @@ minikube status
 
 ### 3. Unseren Container starten
 ```
-kubectl create deployment brownbag-session --image=filipenko23/brownbag-session:brownbag-webpage
+kubectl create deployment brownbag-session --image=registrypfad:brownbag-webpage
 ```
 ### 4. Ersten Service starten 
 ```
