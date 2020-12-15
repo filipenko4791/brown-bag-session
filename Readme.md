@@ -186,13 +186,13 @@ ssh -i <LOCATION TO SSH PRIVATE KEY> -L <LOCAL PORT>:localhost:<REMOTE PORT ON W
     
 Beispiel:
 ```
-ssh -i /Users/ptiede/Documents/Secrets/BrownBagSession.pem -L 8081:localhost:38923 ubuntu@18.157.79.90
+ssh -i <keypair>.pem -L 8081:localhost:38923 ubuntu@18.157.79.90
 ```
 Dashboard aufrufen im Web Browser
 
 Beispiel:
 ```
-http://localhost:8081/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/error?namespace=default
+localhost:8081/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/
 ```
 
 
