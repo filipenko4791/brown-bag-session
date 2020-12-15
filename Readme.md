@@ -15,12 +15,18 @@
 * ggf. GitHub Account
 
 ### 1. Login Docker Hub über Terminal
-`docker login`
+```
+docker login
+```
 ### 2. Docker  Version prüfen
-`docker --version`
+```
+docker --version
+```
 
 ### 3. Projekt aus GitHub clonen
-`git clone https://github.com/filipenko4791/brown-bag-session.git`
+```
+git clone https://github.com/filipenko4791/brown-bag-session.git
+```
 
 ## Schritt 1 - Docker Container bauen
 
@@ -32,28 +38,33 @@
 ```
 FROM nginx:alpine
 COPY . /usr/share/nginx/html
-
 ```
 
 ### 2. Build Docker Image
 * Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt
 * Du musst dich im Directory befinden
 
-`docker build -t brownbag:1.0 . 
-docker images`
+```
+docker build -t brownbag:1.0 . 
+docker images
+```
 
 ### 3. Run
 * Jeder Container ist eine Sandbox für die App
 * Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben
 
+```
 docker run --name brownbag-session -d -it -p 80:80 brownbag-image:1.0
+```
 
 ### 4. Erstelltes Image in Docker Hub pushen
 * Erstelltes Image in die Registry pushen
 * Dabei einen neuen Tag für die Zielregistry vergeben
 
-docker tag bc1c3bf99406 filipenko23/brownbag-session:brownbag-webpage
+```
+docker tag image-id filipenko23/brownbag-session:brownbag-webpage
 docker push filipenko23/brownbag-session:brownbag-webpage
+```
 
 ## Schritt 2 - Aufbauen einer EC2-Instanz mit Docker und Minikube
 
