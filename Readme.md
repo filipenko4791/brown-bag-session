@@ -45,7 +45,7 @@ COPY . /usr/share/nginx/html
 * Du musst dich im Directory befinden
 
 ```
-docker build -t brownbag:1.0 . 
+docker build -t brownbag-image:1.0 . 
 docker images
 ```
 
