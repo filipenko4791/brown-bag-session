@@ -15,7 +15,7 @@ Docker Hub Account anlegen und einlogen
 ggf. GitHub Account
 
 ### 1. Login Docker Hub über Terminal
-`<addr>` docker login
+`docker login`
 ### 2. Docker  Version prüfen
 docker --version
 
