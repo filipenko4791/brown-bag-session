@@ -166,7 +166,7 @@ kubectl get services
 * Port Range: 30263 (der Port aus dem Befehl kubectl get services command)
 * Source: Custom, 0.0.0.0/0 (Zugriff aus dem Internet)
 
-### 8. Den Container via der EC2-Instanz über den Web Browser aufrufen
+### 7. Den Container via der EC2-Instanz über den Web Browser aufrufen
 ```
 &lt;ipv4_public_ip&gt;:&lt;ec2_port&gt;.
 ````
@@ -175,11 +175,19 @@ Bspw. 18.157.79.90:32719
 
 
 
-
-
-minikube dashboard   // Access Remote  minikube dashboard --url && ssh -i <LOCATION TO SSH PRIVATE KEY> -L <LOCAL PORT>:localhost:<REMOTE PORT ON WHICH MINIKUBE DASHBOARD IS RUNNING> user-name@IP
-    minikube dashboard --url && ssh -i /Users/ptiede/Documents/Secrets/BrownBagSession.pem -L 8081:localhost:38923 ubuntu@18.157.79.90
-$ sudo ssh -i ~/.ssh/id_rsa -L 8081:localhost:36525 shubham@40.77.75.58
+#### Minikube Dashboard aufrufen
+```
+minikube dashboard   
+````
+Remote-Zugriff erstellen
+```
+ssh -i <LOCATION TO SSH PRIVATE KEY> -L <LOCAL PORT>:localhost:<REMOTE PORT ON WHICH MINIKUBE DASHBOARD IS RUNNING> user-name@IP
+```   
+    
+Beispiel:
+```
+ssh -i /Users/ptiede/Documents/Secrets/BrownBagSession.pem -L 8081:localhost:38923 ubuntu@18.157.79.90
+```
 
 
 
