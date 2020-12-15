@@ -15,7 +15,7 @@ Docker Hub Account anlegen und einlogen
 ggf. GitHub Account
 
 ### 1. Login Docker Hub über Terminal
-docker login
+`<addr>` docker login
 ### 2. Docker  Version prüfen
 docker --version
 
@@ -33,42 +33,38 @@ FROM nginx:alpine
 COPY . /usr/share/nginx/html
 
 ### 2. Build Docker Image
-Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt<br>
-docker build -t <build-directory> / -t ist für lesbaren Namen<br>
-Du musst dich im Directory befinden<br>
+* Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt
+* Du musst dich im Directory befinden
 
 docker build -t brownbag:1.0 . 
 docker images
 
 ### 3. Run
-Jeder Container ist eine Sandbox für die App<br>
-Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben<br>
+* Jeder Container ist eine Sandbox für die App
+* Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben<br>
 
 docker run --name brownbag-session -d -it -p 80:80 brownbag-image:1.0
 
-### 4. Push Image to Docker Hub
-Erstelltes Image in die Registry pushen
-Dabei einen neuen Tag für die Zielregistry vergeben
+### 4. Erstelltes Image in Docker Hub pushen
+* Erstelltes Image in die Registry pushen
+* Dabei einen neuen Tag für die Zielregistry vergeben
 
 docker tag bc1c3bf99406 filipenko23/brownbag-session:brownbag-webpage
 docker push filipenko23/brownbag-session:brownbag-webpage
 
-## Schritt 2 - Aufbauen einer EC2 Instanz  mit Docker und Minikube
+## Schritt 2 - Aufbauen einer EC2-Instanz mit Docker und Minikube
 
-AMI	| Ubuntu Server 18.04 LTS (HVM), SSD Volume Type <br>
-Instance Type | t3.micro (2 vCPU, 1GB Memory) <br>
-Storage | 8 GB (gp2) <br>
-Tags |	– Key: Name <br>
-– Value: Minikube <br>
-Security Group |	Name: Minikube Security Group 
-– SSH, 0.0.0.0/0 
-Later we will be editing this. <br>
-Key Pair | Create your own keypair. 
-You will need this to SSH to your EC2 Instance <br>
+### 1. EC2-Instanz erstellen
+* AMI: Ubuntu Server 18.04 LTS (HVM), SSD Volume Type
+* Instance Type: t3.micro (2 vCPU, 1GB Memory)
+* Storage: 8 GB (gp2)
+* Tags: – Key: Name, – Value: Minikube
+* Security Group: Name: Minikube Security Group, – SSH, 0.0.0.0/0 (wird später noch geändert)
+* Key Pair: Eigenes Schlüsselpaar erstellen, wird verwendet um SSH-Verbindung zu EC2-Instanz zu erstellen.
 
-2. SSH into your created EC2 Instance using your keypair.
+### 2. SSH-Verbindung zur erstellten EC2-Instanz mit Schlüsselpaar herstellen
+
 ssh ubuntu@<ipv4_public_ip> -i <keypair>.pem
-Bspw. ssh ubuntu@18.157.79.90  -i /Users/ptiede/Documents/Secrets/BrownBagSession.pem
  
 Fix for WARNING: UNPROTECTED PRIVATE KEY FILE! 
 sudo chmod 600 /path/to/my/key.pem
