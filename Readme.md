@@ -160,7 +160,7 @@ kubectl get services
 
 ### 6. Sicherheitsgruppe der EC2-Instanz anpassen
 
-* EC2 >> Erstelle EC2-Instanz anwählen >> Sicherheit >> Minikube Security Group >> Regeln für eingehenden Datenverkehr*
+*EC2 >> Erstelle EC2-Instanz anwählen >> Sicherheit >> Minikube Security Group >> Regeln für eingehenden Datenverkehr*
 
 * Type: Custom TCP Rule
 * Protocol: TCP
