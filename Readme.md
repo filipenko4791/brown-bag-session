@@ -149,7 +149,7 @@ kubectl create deployment brownbag-session --image=filipenko23/brownbag-session:
 ```
 ### 4. Ersten Service starten 
 ```
-kubectl expose deployment brownbag-session --type=NodePort --port=8080
+kubectl expose deployment brownbag-session --type=NodePort --port=80
 ```
 
 ### 5. Port des Containers ausfindig machen
@@ -159,7 +159,7 @@ kubectl get services
 
 ### 6. Sicherheitsgruppe der EC2-Instanz anpassen
 
-*EC2 >> Erstelle EC2-Instanz anwählen >> Sicherheit >> Minikube Security Group >> Regeln für eingehenden Datenverkehr*
+* EC2 >> Erstelle EC2-Instanz anwählen >> Sicherheit >> Minikube Security Group >> Regeln für eingehenden Datenverkehr*
 
 * Type: Custom TCP Rule
 * Protocol: TCP
@@ -171,7 +171,7 @@ kubectl get services
 &lt;ipv4_public_ip&gt;:&lt;ec2_port&gt;.
 ````
 
-Bspw. 18.157.79.90:32719
+Bspw. 18.157.79.90:31559
 
 
 
@@ -187,6 +187,12 @@ ssh -i <LOCATION TO SSH PRIVATE KEY> -L <LOCAL PORT>:localhost:<REMOTE PORT ON W
 Beispiel:
 ```
 ssh -i /Users/ptiede/Documents/Secrets/BrownBagSession.pem -L 8081:localhost:38923 ubuntu@18.157.79.90
+```
+Dashboard aufrufen im Web Browser
+
+Beispiel:
+```
+http://localhost:8081/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/error?namespace=default
 ```
 
 
