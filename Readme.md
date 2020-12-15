@@ -1,26 +1,26 @@
 # Testumgebung für die Brown Bag Session am 17.12.2020
 
 ## Nützliche Links:
-Git repository https://github.com/filipenko4791/brown-bag-session.git
-Docker Registry docker pull filipenko23/brownbag-session
-Getting Started with Docker https://docs.docker.com/get-started/
-Play with Docker https://labs.play-with-docker.com
-Getting Started with Kubernetes https://kubernetes.io/docs/setup/
-Container Transformation Webseite https://blog.direkt-gruppe.de/container-transformation
-Running Minikube in AWS EC2 (Ubuntu) https://www.radishlogic.com/kubernetes/running-minikube-in-aws-ec2-ubuntu/
+* Git repository https://github.com/filipenko4791/brown-bag-session.git
+* Docker Registry docker pull filipenko23/brownbag-session
+* Getting Started with Docker https://docs.docker.com/get-started/
+* Play with Docker https://labs.play-with-docker.com
+* Getting Started with Kubernetes https://kubernetes.io/docs/setup/
+* Container Transformation Webseite https://blog.direkt-gruppe.de/container-transformation
+* Running Minikube in AWS EC2 (Ubuntu) https://www.radishlogic.com/kubernetes/running-minikube-in-aws-ec2-ubuntu/
 
 ## Vorbereitung: 
-Docker Desktop for Windows or Mac installieren
-Docker Hub Account anlegen und einlogen
-ggf. GitHub Account
+* Docker Desktop for Windows or Mac installieren
+* Docker Hub Account anlegen und einlogen
+* ggf. GitHub Account
 
 ### 1. Login Docker Hub über Terminal
 `docker login`
 ### 2. Docker  Version prüfen
-docker --version
+`docker --version`
 
 ### 3. Projekt aus GitHub clonen
-git clone https://github.com/filipenko4791/brown-bag-session.git
+`git clone https://github.com/filipenko4791/brown-bag-session.git`
 
 ## Schritt 1 - Docker Container bauen
 
@@ -29,19 +29,19 @@ git clone https://github.com/filipenko4791/brown-bag-session.git
 * im Dockerfile sind Anweisungen enthalten
 * TODO: Dockerfile mit folgendem Inhalt erstellen:
 
-FROM nginx:alpine
-COPY . /usr/share/nginx/html
+`FROM nginx:alpine<br>
+COPY . /usr/share/nginx/html`
 
 ### 2. Build Docker Image
 * Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt
 * Du musst dich im Directory befinden
 
-docker build -t brownbag:1.0 . 
-docker images
+`docker build -t brownbag:1.0 . 
+docker images`
 
 ### 3. Run
 * Jeder Container ist eine Sandbox für die App
-* Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben<br>
+* Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben
 
 docker run --name brownbag-session -d -it -p 80:80 brownbag-image:1.0
 
