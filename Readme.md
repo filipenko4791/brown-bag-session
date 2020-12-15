@@ -54,7 +54,8 @@ docker tag bc1c3bf99406 filipenko23/brownbag-session:brownbag-webpage
 docker push filipenko23/brownbag-session:brownbag-webpage
 
 ## Schritt 2 - Aufbauen einer EC2 Instanz  mit Docker und Minikube
-    
+
+----- | –––––
 AMI	| Ubuntu Server 18.04 LTS (HVM), SSD Volume Type
 Instance Type | t3.micro (2 vCPU, 1GB Memory)
 Storage | 8 GB (gp2)
