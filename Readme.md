@@ -25,24 +25,24 @@ git clone https://github.com/filipenko4791/brown-bag-session.git
 ## Schritt 1 - Docker Container bauen
 
 ### 1. Check Dockerfile
-Basisimage (FROM) ist notwendig und abhängig von verwendeten Software
-im Dockerfile sind Anweisungen enthalten
-TODO: Dockerfile mit folgendem Inhalt erstellen:
+* Basisimage (FROM) ist notwendig und abhängig von verwendeten Software
+* im Dockerfile sind Anweisungen enthalten
+* TODO: Dockerfile mit folgendem Inhalt erstellen:
 
 FROM nginx:alpine
 COPY . /usr/share/nginx/html
 
 ### 2. Build Docker Image
-Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt
-docker build -t <build-directory> / -t ist für lesbaren Namen
-Du musst dich im Directory befinden
+Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt<br>
+docker build -t <build-directory> / -t ist für lesbaren Namen<br>
+Du musst dich im Directory befinden<br>
 
 docker build -t brownbag:1.0 . 
 docker images
 
 ### 3. Run
-Jeder Container ist eine Sandbox für die App
-Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben
+Jeder Container ist eine Sandbox für die App<br>
+Jeder Container der gestartet  wird benötigt die entsprechenden Freigaben<br>
 
 docker run --name brownbag-session -d -it -p 80:80 brownbag-image:1.0
 
@@ -55,17 +55,16 @@ docker push filipenko23/brownbag-session:brownbag-webpage
 
 ## Schritt 2 - Aufbauen einer EC2 Instanz  mit Docker und Minikube
 
------------- | -------------
-AMI	| Ubuntu Server 18.04 LTS (HVM), SSD Volume Type
-Instance Type | t3.micro (2 vCPU, 1GB Memory)
-Storage | 8 GB (gp2)
-Tags |	– Key: Name
-– Value: Minikube
-Security Group |	Name: Minikube Security Group
-– SSH, 0.0.0.0/0
-Later we will be editing this.
-Key Pair | Create your own keypair.
-You will need this to SSH to your EC2 Instance
+AMI	| Ubuntu Server 18.04 LTS (HVM), SSD Volume Type <br>
+Instance Type | t3.micro (2 vCPU, 1GB Memory) <br>
+Storage | 8 GB (gp2) <br>
+Tags |	– Key: Name <br>
+– Value: Minikube <br>
+Security Group |	Name: Minikube Security Group 
+– SSH, 0.0.0.0/0 
+Later we will be editing this. <br>
+Key Pair | Create your own keypair. 
+You will need this to SSH to your EC2 Instance <br>
 
 2. SSH into your created EC2 Instance using your keypair.
 ssh ubuntu@<ipv4_public_ip> -i <keypair>.pem
