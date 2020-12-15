@@ -78,65 +78,100 @@ docker push filipenko23/brownbag-session:brownbag-webpage
 
 ### 2. SSH-Verbindung zur erstellten EC2-Instanz mit Schlüsselpaar herstellen
 
+```
 ssh ubuntu@<ipv4_public_ip> -i <keypair>.pem
- 
-Fix for WARNING: UNPROTECTED PRIVATE KEY FILE! 
+```
+
+**Fix für WARNING: UNPROTECTED PRIVATE KEY FILE!**
+```
 sudo chmod 600 /path/to/my/key.pem
 sudo chmod 755 ~/.ssh
+```
  
-3. Install kubectl
+### 3. kubectl installieren
 
+```
 curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-
+```
+```
 chmod +x ./kubectl
+```
+```
 sudo mv ./kubectl /usr/local/bin/kubectl
+```
 
-4. Install Docker
+### 4. Docker installieren
+
+Minikube benötigt Docker. 
+```
 sudo apt-get update && \
     sudo apt-get install docker.io -y
-    
+````
+Docker Version prüfen.    
+```
 docker version
-    
-5. Install Minikube
+```    
+
+### 5. Install Minikube
+```
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
-
+````
+### 6. Minikube Version prüfen
+```
 minikube version
+````
 
-Step 3 
-Minkube auf EC2-Instanz ausführen
-1. Root User werden
+## Schritt 3 - Minkube auf EC2-Instanz ausführen
+
+Root User werden.
+```
 sudo -i
+````
 
-2. Minikube starten
+### 1. Minikube starten
+```
 minikube start --vm-driver=none
-Fix bei Fehler: sudo apt-get install -y conntrack
+```
 
-3. Status von Minikube checken
+**Fix bei Conntrack-Fehler**
+```
+sudo apt-get install -y conntrack
+```
+
+### 2. Status von Minikube checken
+```
 minikube status
+````
 
-4. Unseren Container starten
+### 3. Unseren Container starten
+```
 kubectl create deployment brownbag-session --image=filipenko23/brownbag-session:brownbag-webpage
-
-5. Unseren Service starten 
+```
+### 4. Ersten Service starten 
+```
 kubectl expose deployment brownbag-session --type=NodePort --port=8080
+```
 
-6. Port des Containers ausfindig machen
+### 5. Port des Containers ausfindig machen
+```
 kubectl get services
+````
 
-7. Sicherheitsgruppe der EC2-Instanz anpassen
+### 6. Sicherheitsgruppe der EC2-Instanz anpassen
 
-EC2 >> (Network & Security) Security Groups >> Minikube Security Group >> Ingress
+*EC2 >> Erstelle EC2-Instanz anwählen >> Sicherheit >> Minikube Security Group >> Regeln für eingehenden Datenverkehr*
 
-Type	Custom TCP Rule
-Protocol	TCP
-Port Range	30263 (the port given to you by the kubectl get services command)
-Source	Custom
-0.0.0.0/0 (Accessible via the internet)
+* Type: Custom TCP Rule
+* Protocol: TCP
+* Port Range: 30263 (der Port aus dem Befehl kubectl get services command)
+* Source: Custom, 0.0.0.0/0 (Zugriff aus dem Internet)
 
-8. Den Container via der EC2-Instanz über den Web Browser aufrufen
-
+### 8. Den Container via der EC2-Instanz über den Web Browser aufrufen
+```
 &lt;ipv4_public_ip&gt;:&lt;ec2_port&gt;.
-bspw. 18.157.79.90:32719
+````
+
+Bspw. 18.157.79.90:32719
 
 
 
