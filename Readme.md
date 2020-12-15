@@ -29,8 +29,8 @@
 * im Dockerfile sind Anweisungen enthalten
 * TODO: Dockerfile mit folgendem Inhalt erstellen:
 
-`FROM nginx:alpine<br>
-COPY . /usr/share/nginx/html`
+`FROM nginx:alpine`
+`COPY . /usr/share/nginx/html`
 
 ### 2. Build Docker Image
 * Ergebnis ist ein Docker Image dass gestartet werden kann und die App zum laufen bringt
